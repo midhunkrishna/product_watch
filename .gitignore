@@ -19,6 +19,6 @@
 
 .byebug_history
 
-database.yml
+config/database.yml
 
 **/public
