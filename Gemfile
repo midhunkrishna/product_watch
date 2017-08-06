@@ -41,6 +41,9 @@ gem 'jbuilder', '~> 2.5'
 # For tracking model changes overtime
 gem 'paper_trail'
 
+# website interaction automator
+gem 'mechanize'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -63,6 +66,8 @@ group :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl'
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
+  gem 'vcr'
+  gem 'webmock'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
