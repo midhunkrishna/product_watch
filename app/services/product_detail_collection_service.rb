@@ -1,17 +1,18 @@
 class ProductDetailCollectionService
 
-  def initialize(url)
+  def initialize(url, asin)
     @product_page = url
+    @asin = asin
   end
 
   def process
-    details = collect_product_details
+    collect_product_details
   end
 
   private
 
   def collect_product_details
-    attributes = [:price, :title, :images, :features, :review_count, :best_seller_rank]
+    attributes = [:price, :title, :images, :features, :review_count, :best_seller_rank, :inventory]
     attributes.inject({}) do |detail, attribute|
       detail[attribute] = send(attribute)
       detail
@@ -24,6 +25,10 @@ class ProductDetailCollectionService
 
   def price
     page.at("#priceblock_ourprice").text.strip
+  end
+
+  def inventory
+    InventoryRetrievalService.new(@product_page, @asin).process
   end
 
   def title
@@ -52,7 +57,6 @@ class ProductDetailCollectionService
     substring_between(best_seller_delimiter_start, best_seller_delimiter_stop, rank)
       .try(:gsub, '(', '')
       .try(:strip)
-
   end
 
   def substring_between(start, stop, string)

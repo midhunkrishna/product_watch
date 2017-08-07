@@ -44,6 +44,12 @@ gem 'paper_trail'
 # website interaction automator
 gem 'mechanize'
 
+# browser automation tool
+gem 'watir'
+
+# ruby interface for Xvfb
+gem 'headless'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug', platforms: [:mri, :mingw, :x64_mingw]
