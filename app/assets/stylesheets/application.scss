@@ -13,3 +13,25 @@
  *= require_tree .
  *= require_self
  */
+
+
+@import "bootstrap";
+
+// template styles
+
+header {
+    border-bottom: 1px solid blue;
+    margin-bottom: 45px;
+}
+
+.btn{
+    cursor: pointer;
+}
+
+.form-actions {
+    margin-top: 30px;
+}
+
+.nested-form{
+    padding-left: 40px;
+}

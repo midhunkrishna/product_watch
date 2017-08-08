@@ -1,0 +1,4 @@
+.nested-form
+  = f.input :asin
+  = f.input :url, hint: 'Can provide either asin or url or both'
+  = link_to_remove_association "remove competitor", f

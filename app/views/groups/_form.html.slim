@@ -1,0 +1,18 @@
+= simple_form_for(@group, html: {class: 'form-group' }) do |f|
+  - if @group.errors.any?
+    #error_explanation
+      h4 = "#{pluralize(@group.errors.count, "error")} prohibited this group from being saved:"
+      ul
+        - @group.errors.full_messages.each do |message|
+          li = message
+  = f.input :asin
+  = f.input :url, hint: 'Can provide either asin or url or both'
+
+  h5 Competitors
+  = f.simple_fields_for :competitors do | competitor |
+    = render 'competitor_fields', f: competitor
+  .links
+    = link_to_add_association 'add competitor', f, :competitors
+
+  .form-actions
+    = f.button :submit
