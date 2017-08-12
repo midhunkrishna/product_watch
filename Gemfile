@@ -86,7 +86,7 @@ end
 
 group :test do
   gem 'rspec-rails', '~> 3.5'
-  gem 'factory_girl'
+  gem 'factory_girl_rails'
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
   gem 'vcr'
   gem 'webmock'

@@ -63,6 +63,8 @@ RSpec.configure do |config|
   config.before :each do |example|
     @test_name = example.description.gsub('', "_")
   end
+
+  config.include FactoryGirl::Syntax::Methods
 end
 
 VCR.configure do |c|

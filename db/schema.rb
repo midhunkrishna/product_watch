@@ -10,19 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170806082250) do
+ActiveRecord::Schema.define(version: 20170812131043) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "competitors", force: :cascade do |t|
-    t.integer "price"
+    t.string "price"
     t.string "title"
     t.text "images"
     t.text "features"
-    t.integer "number_of_reviews"
-    t.integer "best_seller_rank"
-    t.integer "inventory"
+    t.integer "review_count"
+    t.string "best_seller_rank"
+    t.string "inventory"
     t.bigint "group_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -36,6 +36,16 @@ ActiveRecord::Schema.define(version: 20170806082250) do
     t.text "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "product_changes", force: :cascade do |t|
+    t.bigint "group_id"
+    t.bigint "competitor_id"
+    t.text "change_data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["competitor_id"], name: "index_product_changes_on_competitor_id"
+    t.index ["group_id"], name: "index_product_changes_on_group_id"
   end
 
 end

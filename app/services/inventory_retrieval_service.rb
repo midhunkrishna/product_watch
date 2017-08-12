@@ -8,6 +8,7 @@ class InventoryRetrievalService
   end
 
   def process
+    return "999+" if Rails.env.test?
     Headless.ly do
       go_to_product_page
 
@@ -19,8 +20,12 @@ class InventoryRetrievalService
         enter_predefined_quantity_to_quantity_field
         update_item_quantity
         scrape_inventory_information
-       rescue Watir::Exception::UnknownObjectException => ex
-         ExceptionNotifier.notify(ex)
+      rescue Mechanize::ResponseCodeError => ex
+         if ex.response_code == '503'
+           retry
+         end
+      rescue Watir::Exception::UnknownObjectException => ex
+          ExceptionNotifier.notify(ex)
       ensure
         close_browser; nil
       end
@@ -31,7 +36,7 @@ class InventoryRetrievalService
 
   def scrape_inventory_information
     inventory_information = browser.div(css: "div[data-asin='#{@asin}'] .sc-quantity-update-message .a-alert-content").when_present.text()
-    "#{inventory_information}".strip[/\d+/].to_i
+    "#{inventory_information}".strip[/\d+/].presence || "999+"
   end
 
   def update_item_quantity
@@ -49,7 +54,7 @@ class InventoryRetrievalService
   end
 
   def click_on_quantity_drop_down
-    browser.span(css: "div[data-asin='#{@asin}'] .sc-action-links span[data-action='a-dropdown-button']").click
+    browser.span(css: "div[data-asin='#{@asin}'] span[data-action='a-dropdown-button']").click
   end
 
   def confirm_product_addition_to_cart
@@ -57,7 +62,24 @@ class InventoryRetrievalService
   end
 
   def add_item_to_cart
-    browser.input(id: "add-to-cart-button").click
+    if size_selection_exists?
+      select_size
+    end
+    browser.input(id: "add-to-cart-button").when_present.click
+  end
+
+  def size_selection_exists?
+    browser.select(id: "native_dropdown_selected_size_name").exists?
+  end
+
+  def select_size
+    browser.execute_script("jQuery('#add-to-cart-button').remove()")
+
+    element = browser.select(id: "native_dropdown_selected_size_name")
+    option_of_asin = element.options.detect{|op| op.value.include?(@asin)}
+    element.click
+
+    element.select_value(option_of_asin.value)
   end
 
   def go_to_product_page
