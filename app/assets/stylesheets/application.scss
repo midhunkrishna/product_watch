@@ -37,7 +37,7 @@ header {
 }
 
 .odd{
-    background-color: #f1ecec;
+    background-color: rgba(31, 31, 255, 0.1);
     padding: 20px;
 }
 
@@ -52,5 +52,6 @@ header {
 }
 
 .change{
-    border: 1px solid orange;
+    border: 1px solid blue;
+    margin-bottom: 10px
 }
