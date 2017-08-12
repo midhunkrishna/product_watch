@@ -1,0 +1,32 @@
+- if changes.present?
+  .row.heading-text
+    .col-sm-12
+      h4
+        | Modifications as of #{params[:date]}
+- changes.group_by(&:group_id).each do |group_id, change_list|
+  - group = Group.find(group_id)
+  .row
+    .col-sm-12
+      h4.text-center
+        = link_to group.asin, group.url
+  .row
+    - change_list.each do | change |
+      .col-sm-12.change.change
+        .row
+          .col-sm-12.sub-heading
+            span
+              | Competitor :- ASIN
+            - competitor = change.competitor
+            = link_to(" ##{competitor.asin}", competitor.url)
+        .row
+          .col-sm-12
+            - counter = 0
+            - change.change_data.each do |attribute, change|
+              - counter += 1
+              .row.row-eq-height class="#{counter.odd? ? 'odd' : 'even'}"
+                .col-sm-2
+                  | #{attribute}
+                .col-sm-4
+                  | #{change[0]}
+                .col-sm-4
+                  | #{change[1]}
