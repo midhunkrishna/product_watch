@@ -60,11 +60,16 @@ gem 'bootstrap', '~> 4.0.0.alpha6'
 gem "slim-rails"
 
 # support cocoon woth jQuery
-gem 'jquery-rails'
+gem "jquery-rails"
 
 # nested forms
 gem "cocoon"
 
+# background processor
+gem "sidekiq"
+
+# for running jobs in batches
+gem 'sidekiq-batch'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
