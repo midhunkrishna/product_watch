@@ -35,3 +35,23 @@ header {
 .nested-form{
     padding-left: 40px;
 }
+
+.odd{
+    background-color: rgba(31, 31, 255, 0.1);
+    padding: 20px;
+}
+
+.even{
+    padding: 20px;
+}
+
+.sub-heading{
+    padding-bottom: 4px;
+    margin-bottom: 15px;
+    padding-top: 14px;
+}
+
+.change{
+    border: 1px solid blue;
+    margin-bottom: 10px
+}

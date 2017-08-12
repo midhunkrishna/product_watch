@@ -35,8 +35,12 @@ class InventoryRetrievalService
   private
 
   def scrape_inventory_information
-    inventory_information = browser.div(css: "div[data-asin='#{@asin}'] .sc-quantity-update-message .a-alert-content").when_present.text()
-    "#{inventory_information}".strip[/\d+/].presence || "999+"
+    begin
+      element = browser.div(css: "div[data-asin='#{@asin}'] .sc-quantity-update-message .a-alert-content").when_present(30).text()
+      "#{element}".strip[/\d+/].to_s
+    rescue Watir::Wait::TimeoutError => ex
+      return "999+"
+    end
   end
 
   def update_item_quantity
@@ -58,7 +62,7 @@ class InventoryRetrievalService
   end
 
   def confirm_product_addition_to_cart
-    browser.input(id: "hlb-view-cart-announce").click
+    browser.a(id: "hlb-view-cart-announce").when_present.click
   end
 
   def add_item_to_cart
