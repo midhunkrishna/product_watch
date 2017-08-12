@@ -50,6 +50,22 @@ gem 'watir'
 # ruby interface for Xvfb
 gem 'headless'
 
+# form generation helper
+gem 'simple_form'
+
+# bootstrap
+gem 'bootstrap', '~> 4.0.0.alpha6'
+
+# templating engine
+gem "slim-rails"
+
+# support cocoon woth jQuery
+gem 'jquery-rails'
+
+# nested forms
+gem "cocoon"
+
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug', platforms: [:mri, :mingw, :x64_mingw]

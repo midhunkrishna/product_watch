@@ -1,4 +1,5 @@
 class ProductDetailCollectionService
+  include StringHelper
 
   def initialize(url, asin)
     @product_page = url
@@ -57,9 +58,5 @@ class ProductDetailCollectionService
     substring_between(best_seller_delimiter_start, best_seller_delimiter_stop, rank)
       .try(:gsub, '(', '')
       .try(:strip)
-  end
-
-  def substring_between(start, stop, string)
-    string[/#{start}(.*?)#{stop}/m, 1]
   end
 end
