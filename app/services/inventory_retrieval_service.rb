@@ -91,10 +91,48 @@ class InventoryRetrievalService
   end
 
   def browser
-    @_browser ||= Watir::Browser.new :chrome
+    if ENV['HEROKU']
+      @_browser ||= new_browser_for_heroku
+    else
+      @_browser ||= Watir::Browser.new :chrome
+    end
   end
 
   def close_browser
     browser.close
+  end
+
+  def new_browser_for_heroku
+    # depends on https://github.com/heroku/heroku-buildpack-xvfb-google-chrome
+    # build pack
+
+    options = Selenium::WebDriver::Chrome::Options.new
+
+    # make a directory for chrome user data
+    chrome_dir = File.join Dir.pwd, %w(tmp chrome)
+    FileUtils.mkdir_p chrome_dir
+    user_data_dir = "--user-data-dir=#{chrome_dir}"
+    # add the option for user-data-dir
+    options.add_argument user_data_dir
+
+    # let Selenium know where to look for chrome if we have a hint from
+    # heroku.
+    if chrome_bin = ENV["GOOGLE_CHROME_BIN"]
+      options.add_argument "no-sandbox"
+      options.binary = chrome_bin
+      # give a hint to here too
+      Selenium::WebDriver::Chrome.driver_path = \
+      "/app/vendor/bundle/bin/chromedriver"
+    else
+      raise RuntimeError.new("Please install buildpack from https://github.com/heroku/heroku-buildpack-xvfb-google-chrome")
+    end
+
+    # for now, no headless :/
+    # options.add_argument "window-size=1200x600"
+    # options.add_argument "headless"
+    # options.add_argument "disable-gpu"
+
+    # make the browser
+    Watir::Browser.new :chrome, options: options
   end
 end
