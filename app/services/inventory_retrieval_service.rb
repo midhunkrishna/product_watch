@@ -121,7 +121,7 @@ class InventoryRetrievalService
       options.add_argument "no-sandbox"
       options.binary = chrome_bin
       # give a hint to here too
-      if File.executable("/app/.chromedriver/bin")
+      if File.executable?("/app/.chromedriver/bin")
         Selenium::WebDriver::Chrome.driver_path = "/app/.chromedriver/bin"
       else
         raise RuntimeError.new("Unable to find webdriver for chrome")
