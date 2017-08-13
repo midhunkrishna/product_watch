@@ -121,8 +121,11 @@ class InventoryRetrievalService
       options.add_argument "no-sandbox"
       options.binary = chrome_bin
       # give a hint to here too
-      Selenium::WebDriver::Chrome.driver_path = \
-      "/app/vendor/bundle/bin/chromedriver"
+      if File.executable("/app/.chromedriver/bin")
+        Selenium::WebDriver::Chrome.driver_path = "/app/.chromedriver/bin"
+      else
+        raise RuntimeError.new("Unable to find webdriver for chrome")
+      end
     else
       raise RuntimeError.new("Please install buildpack from https://github.com/heroku/heroku-buildpack-xvfb-google-chrome")
     end
